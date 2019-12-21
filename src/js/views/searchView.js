@@ -14,8 +14,6 @@ export const clearResults = () => {
 const shortenRecipeTitle = (title, limit = 18) => {
   const newTitle = [];
 
-  firstWord.substr(0, limit)
-
   if (title.length > limit) {
     title.split(' ').reduce((acc, cur) => {
       if (acc + cur.length <= limit) {

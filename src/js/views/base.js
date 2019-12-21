@@ -1,5 +1,29 @@
 export const element = {
   searchInput: document.querySelector('.search__field'),
   searchForm: document.querySelector('.search'),
-  searchResultList: document.querySelector('.results__list')
+  searchResultList: document.querySelector('.results__list'),
+  searchResults: document.querySelector('.results')
+}
+
+export const elementStrings = {
+  loader: 'loader'
+}
+
+export const renderLoader = containerElement => {
+  const loader = `
+    <div class="loader">
+      <svg>
+        <use href="img/icons.svg#icon-cw"></use>
+      </svg>
+    </div>
+  `;
+
+  containerElement.insertAdjacentHTML('afterbegin', loader);
+};
+
+export const clearLoader = () => {
+  const loader = document.querySelector(`.${elementStrings.loader}`);
+  if (loader) {
+    loader.parentElement.removeChild(loader);
+  }
 }
