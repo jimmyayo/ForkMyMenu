@@ -35,6 +35,8 @@ const controlSearch = async function() {
 element.searchForm.addEventListener('submit', e => {
   e.preventDefault();
   controlSearch();
-})
+});
 
-//state.search.getResults();
+element.searchResultsPaging.addEventListener('click', e=> {
+  const btn = e.target.closest('.btn-inline');
+})
