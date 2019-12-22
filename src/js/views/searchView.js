@@ -8,6 +8,7 @@ export const clearInput = () => {
 
 export const clearResults = () => {
   element.searchResultList.innerHTML = '';
+  element.searchResultsPaging.innerHTML = '';
 }
 
 // will shorten recipe title if it's too long followed by '...'
@@ -49,10 +50,10 @@ const renderRecipe = recipe => {
 // type: 'prev' or 'next'
 const createButton = (page, type) => `
   <button class="btn-inline results__btn--${type}" data-goto=${type === 'prev' ? page - 1 : page + 1}>
+    <span>Page ${type === 'prev' ? page - 1 : page + 1}</span>
     <svg class="search__icon">
         <use href="img/icons.svg#icon-triangle-${type === 'prev' ? 'left' : 'right'}"></use>
     </svg>
-    <span>Page ${type === 'prev' ? page - 1 : page + 1}</span>
   </button>
 `;
 
@@ -77,7 +78,7 @@ const renderButtons = (page, totalResults, itemsPerPage) => {
   element.searchResultsPaging.insertAdjacentHTML('afterbegin', button);
 }
 
-export const renderResults = (recipes, page = 2, itemsPerPage = 10) => {
+export const renderResults = (recipes, page = 1, itemsPerPage = 10) => {
   const start = (page - 1) * itemsPerPage;
   const end = page * itemsPerPage;
 
