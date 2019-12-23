@@ -1,6 +1,7 @@
 import Search from './models/Search';
 import Recipe from './models/Recipe';
 import * as searchView from './views/searchView';
+import * as recipeView from './views/recipeView';
 import { element, renderLoader, clearLoader } from './views/base';
 
 
@@ -13,34 +14,39 @@ import { element, renderLoader, clearLoader } from './views/base';
 // - Liked recipes
 const state = {};
 
-const controlSearch = async function() {
+const SearchController = async function () {
   // get query from view
   const query = searchView.getInput();
-  console.log(query);
 
   if (query) {
     state.search = new Search(query);
     // Prepare UI for displaying results
     searchView.clearInput();
-    searchView.clearResults(); 
+    searchView.clearResults();
     renderLoader(element.searchResults);
 
     // search for recipes
-    await state.search.getResults();
+    try {
+      await state.search.getResults();
 
-    // render results on UI
-    clearLoader();
-    searchView.renderResults(state.search.recipes, 1);
-    
+      // render results on UI
+      clearLoader();
+      searchView.renderResults(state.search.recipes, 1);
+    } catch (error) {
+      console.log(error);
+      alert('Error searching for recipes');
+      clearLoader();
+    }
+
   }
 }
 
 element.searchForm.addEventListener('submit', e => {
   e.preventDefault();
-  controlSearch();
+  SearchController();
 });
 
-element.searchResultsPaging.addEventListener('click', e=> {
+element.searchResultsPaging.addEventListener('click', e => {
   const btn = e.target.closest('.btn-inline');
   if (btn) {
     const gotoPage = parseInt(btn.dataset.goto, 10);
@@ -53,6 +59,33 @@ element.searchResultsPaging.addEventListener('click', e=> {
 
 
 //**** RECIPE CONTROLLER ****//
-const r = new Recipe(35477);
-r.getRecipe();
-console.log(r);
+
+const RecipeController = async () => {
+  // Get recipeID from URL
+  const id = window.location.hash.replace('#', '');
+  if (id) {
+    console.log(id);
+    // Prepare UI for changes
+
+    // instantiate new Recipe
+    state.recipe = new Recipe(id);
+
+    // get Recipe data
+    try {
+      await state.recipe.getRecipe();
+      // calculate servings, cooking time
+      state.recipe.getCookingTime();
+      state.recipe.getServings();
+      state.recipe.parseIngredients();
+
+      // render recipe
+      console.log(state.recipe);
+    } catch (error) {
+      console.log(error);
+      alert('error retrieving recipe for id: ' + id);
+    }
+  }
+}
+
+window.addEventListener('hashchange', RecipeController);
+window.addEventListener('load', RecipeController);
