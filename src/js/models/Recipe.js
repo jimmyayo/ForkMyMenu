@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { round } from '../helpers/helpers';
 
 class Recipe {
   constructor(id) {
@@ -41,7 +42,12 @@ class Recipe {
       ['cups', 'cup'],
       ['pounds', 'pound'],
       ['lbs', 'pound'],
-      ['lb', 'pound']
+      ['lb', 'pound'],
+      ['kg', 'kg'],
+      ['g', 'g'],
+      ['grams', 'g'],
+      ['grams', 'g']
+
     ]);
     const unitsAbbr = [ ...unitsMap.values()];
 
@@ -60,8 +66,7 @@ class Recipe {
       // 3) Parse ingredients into count, unit and ingredient
       const arrIng = ingredient.split(' ');
       
-      const unitIndex = arrIng.findIndex(el2 => unitsAbbr.includes(el2));
-
+      const unitIndex = arrIng.findIndex(e => unitsAbbr.includes(e));
 
       let ingObj;
 
@@ -73,10 +78,10 @@ class Recipe {
         let count;
 
         if (arrCount === 1) {
-          count = eval(arrCount[0].replace('-', '+'));
+          count = round(eval(arrCount[0].replace('-', '+'), 2));
         } else {
           //count = eval(arrCount.slice(0, unitIndex).join('+'));
-          count = eval(arrCount.join('+').replace('-', '+'));
+          count = round(eval(arrCount.join('+').replace('-', '+')), 2);
         }
 
         ingObj = {

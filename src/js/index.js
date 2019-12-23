@@ -64,8 +64,9 @@ const RecipeController = async () => {
   // Get recipeID from URL
   const id = window.location.hash.replace('#', '');
   if (id) {
-    console.log(id);
     // Prepare UI for changes
+    recipeView.clearRecipe();
+    renderLoader(element.recipe);
 
     // instantiate new Recipe
     state.recipe = new Recipe(id);
@@ -79,6 +80,8 @@ const RecipeController = async () => {
       state.recipe.parseIngredients();
 
       // render recipe
+      clearLoader();
+      recipeView.renderRecipe(state.recipe);
       console.log(state.recipe);
     } catch (error) {
       console.log(error);

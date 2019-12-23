@@ -182,7 +182,7 @@ body {
     font-family: inherit;
     color: inherit;
     font-size: 1.7rem;
-    width: 30rem; }
+    width: 57rem; }
     .search__field:focus {
       outline: none; }
     .search__field::placeholder {
@@ -318,7 +318,7 @@ body {
       top: 0;
       left: 0;
       background-image: linear-gradient(to right bottom, #FBDB89, #F48982);
-      opacity: .6; }
+      opacity: .2; }
   .recipe__img {
     width: 100%;
     display: block;
