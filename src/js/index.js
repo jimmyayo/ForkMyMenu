@@ -85,7 +85,6 @@ const RecipeController = async () => {
       // render recipe
       clearLoader();
       recipeView.renderRecipe(state.recipe);
-      console.log(state.recipe);
     } catch (error) {
       console.log(error);
       alert('error retrieving recipe for id: ' + id);
@@ -95,3 +94,20 @@ const RecipeController = async () => {
 
 window.addEventListener('hashchange', RecipeController);
 window.addEventListener('load', RecipeController);
+
+// handle recipe button clics
+element.recipe.addEventListener('click', e => {
+  console.log(e.target);
+  if (e.target.matches('.btn-decrease, btn-decrease *')) {
+    // decrase button clicked
+    if (state.recipe.servings > 1) 
+      state.recipe.updateServings('dec');
+      recipeView.updateServings(state.recipe);
+  } else if (e.target.matches('.btn-increase, btn-increase *')) {
+    // increase button clicked
+    state.recipe.updateServings('inc');
+    recipeView.updateServings(state.recipe);
+  }
+  
+  console.log(state.recipe);
+})
