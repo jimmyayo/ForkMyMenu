@@ -11,6 +11,13 @@ export const clearResults = () => {
   element.searchResultsPaging.innerHTML = '';
 }
 
+export const highlightSelectedRecipe = id => {
+  const allLinks = Array.from(document.querySelectorAll('.results__link'));
+  allLinks.forEach(link => link.classList.remove('results__link--active'));
+  
+  document.querySelector(`a[href="#${id}"]`).classList.add('results__link--active');
+}
+
 // will shorten recipe title if it's too long followed by '...'
 const shortenRecipeTitle = (title, limit = 18) => {
   const newTitle = [];
@@ -33,7 +40,7 @@ const shortenRecipeTitle = (title, limit = 18) => {
 const renderRecipe = recipe => {
   const markup = `
   <li>
-    <a class="results__link results__link--active" href="#${recipe.recipe_id}">
+    <a class="results__link" href="#${recipe.recipe_id}">
         <figure class="results__fig">
             <img src="${recipe.image_url}" alt="${recipe.title}">
         </figure>
@@ -48,9 +55,9 @@ const renderRecipe = recipe => {
 
 
 // type: 'prev' or 'next'
-const createButton = (page, type) => `
+const createButton = (page, type, numpages) => `
   <button class="btn-inline results__btn--${type}" data-goto=${type === 'prev' ? page - 1 : page + 1}>
-    <span>Page ${type === 'prev' ? page - 1 : page + 1}</span>
+    <span>Page ${type === 'prev' ? page - 1 : page + 1} of ${numpages}</span>
     <svg class="search__icon">
         <use href="img/icons.svg#icon-triangle-${type === 'prev' ? 'left' : 'right'}"></use>
     </svg>
@@ -59,20 +66,21 @@ const createButton = (page, type) => `
 
 const renderButtons = (page, totalResults, itemsPerPage) => {
   const pages = Math.ceil(totalResults / itemsPerPage);
+  console.log('total pages: ' + pages);
   let button;
 
   if (page === 1) {
     // Next page button only
-    button = createButton(page, 'next');
+    button = createButton(page, 'next', pages);
   } else if (page < pages) {
     // Both prev and next buttons
     button = `
-      ${createButton(page, 'prev')}
-      ${createButton(page, 'next')}
+      ${createButton(page, 'prev', pages)}
+      ${createButton(page, 'next', pages)}
     `
   } else if (page === pages) {
     // Prev page button only
-    button = createButton(page, 'prev');
+    button = createButton(page, 'prev', pages);
   }
 
   element.searchResultsPaging.insertAdjacentHTML('afterbegin', button);

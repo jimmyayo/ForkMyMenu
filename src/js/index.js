@@ -71,6 +71,9 @@ const RecipeController = async () => {
     // instantiate new Recipe
     state.recipe = new Recipe(id);
 
+    // highlight selected recipe
+    if (state.search) searchView.highlightSelectedRecipe(id);
+
     // get Recipe data
     try {
       await state.recipe.getRecipe();
