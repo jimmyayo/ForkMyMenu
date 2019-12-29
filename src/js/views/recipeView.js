@@ -93,11 +93,11 @@ export const renderRecipe = recipe => {
         }
       </ul>
 
-      <button class="btn-small recipe__btn">
-          <svg class="search__icon">
-              <use href="img/icons.svg#icon-shopping-cart"></use>
+      <button class="btn-small recipe__btn recipe__btn--add">
+          <svg class="search__icon recipe__btn--add">
+              <use href="img/icons.svg#icon-shopping-cart" class="recipe__btn--add"></use>
           </svg>
-          <span>Add to shopping list</span>
+          <span class="recipe__btn--add">Add to shopping list</span>
       </button>
   </div>
 
