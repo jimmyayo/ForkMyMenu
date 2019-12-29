@@ -15,7 +15,7 @@ export const highlightSelectedRecipe = id => {
   const allLinks = Array.from(document.querySelectorAll('.results__link'));
   allLinks.forEach(link => link.classList.remove('results__link--active'));
   
-  document.querySelector(`a[href="#${id}"]`).classList.add('results__link--active');
+  document.querySelector(`.results__link[href="#${id}"]`).classList.add('results__link--active');
 }
 
 // will shorten recipe title if it's too long followed by '...'
@@ -66,7 +66,6 @@ const createButton = (page, type, numpages) => `
 
 const renderButtons = (page, totalResults, itemsPerPage) => {
   const pages = Math.ceil(totalResults / itemsPerPage);
-  console.log('total pages: ' + pages);
   let button;
 
   if (page === 1) {
